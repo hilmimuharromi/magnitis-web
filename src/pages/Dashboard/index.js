@@ -1,23 +1,54 @@
-import React from "react"
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import React, { useEffect } from "react"
+import { Layout, Menu, Row } from 'antd';
+import { useHistory } from "react-router-dom"
+import { SetUser } from "stores/action/User"
+import { connect } from "react-redux"
+import { LaptopOutlined, BookOutlined } from '@ant-design/icons';
 import {
     Switch,
     Route,
-    Link
+    Link,
+    Redirect,
+    useLocation
 } from "react-router-dom";
 import { BuatKuis, ListKuis } from "./kuis"
 import { BuatMateri, ListMateri } from "./materi"
+import Pembelajaran from "./pembelajaran.js"
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-export default function Dashboard() {
+const Dashboard = (props) => {
+    const history = useHistory()
+    const location = useLocation()
+    const { SetUser, dataUser } = props
+
+    useEffect(() => {
+        if (!dataUser) {
+            history.push("/login")
+        }
+        // eslint-disable-next-line
+    }, [])
+
     return (
         <Layout>
-            <Header style={{ padding: 0 }}>
-                <div className="logo" />
+            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+                <Row justify="space-between">
+                    <div className="logo" />
+                    <Menu onClick={() => {
+                        SetUser("")
+                        history.push("/login")
+                    }
+                    } theme="dark" mode="horizontal">
+                        <Menu.Item key="1">
+                            {/* <Button> */}
+                                Logout
+                {/* </Button> */}
+                        </Menu.Item>
+                    </Menu>
+
+                </Row>
             </Header>
-            <Layout>
+            <Layout style={{ marginTop: 64 }}>
                 <Sider
                     breakpoint="lg"
                     collapsedWidth="0"
@@ -27,54 +58,46 @@ export default function Dashboard() {
                     onCollapse={(collapsed, type) => {
                         console.log(collapsed, type);
                     }} width={200} className="site-layout-background">
+                    {/* <div className="logo" /> */}
                     <Menu
                         onClick={(info) => console.log(info)}
                         mode="inline"
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
+                        defaultSelectedKeys={[location.pathname]}
+                        // defaultOpenKeys={[location.pathname]}
                         style={{ height: '100vh', borderRight: 0 }}
                     >
-                        <SubMenu key="sub1" icon={<UserOutlined />} title="Materi">
-                            <Menu.Item key="1">
-
+                        <SubMenu key="sub1" icon={<BookOutlined />} title="Materi">
+                            <Menu.Item key="/buat-materi">
                                 <Link to="/buat-materi">
                                     Buat Materi
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="2">
+                            <Menu.Item key="/list-materi">
                                 <Link to="/list-materi">
                                     List Materi
                                 </Link>
                             </Menu.Item>
-                            {/* <Menu.Item key="3">option3</Menu.Item>
-                            <Menu.Item key="4">option4</Menu.Item> */}
                         </SubMenu>
                         <SubMenu key="sub2" icon={<LaptopOutlined />} title="Kuis">
-                            <Menu.Item key="5">
+                            <Menu.Item key="/buat-kuis">
                                 <Link to="/buat-kuis">
                                     Buat Kuis
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item key="6">
+                            <Menu.Item key="/list-kuis">
                                 <Link to="/list-kuis">
                                     List Kuis
                                 </Link>
                             </Menu.Item>
                         </SubMenu>
-                        {/* <SubMenu key="sub3" icon={<NotificationOutlined />} title="subnav 3">
-                            <Menu.Item key="9">option9</Menu.Item>
-                            <Menu.Item key="10">option10</Menu.Item>
-                            <Menu.Item key="11">option11</Menu.Item>
-                            <Menu.Item key="12">option12</Menu.Item>
-                        </SubMenu> */}
+                        <Menu.Item icon={<LaptopOutlined />}>
+                            <Link to="/pembelajaran">
+                                List Pembelajaran
+                                </Link>
+                        </Menu.Item>
                     </Menu>
                 </Sider>
-                <Layout style={{ padding: '0 24px 24px' }}>
-                    <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>Home</Breadcrumb.Item>
-                        <Breadcrumb.Item>List</Breadcrumb.Item>
-                        <Breadcrumb.Item>App</Breadcrumb.Item>
-                    </Breadcrumb>
+                <Layout style={{ padding: '24px 24px 24px' }}>
                     <Content
                         className="site-layout-background"
                         style={{
@@ -84,22 +107,41 @@ export default function Dashboard() {
                         }}
                     >
                         <Switch>
-                            <Route path="/buat-materi">
+                            <Redirect exact from="/" to="/list-materi" />
+
+                            <Route path="/buat-materi" key={"buat-materi"}>
                                 <BuatMateri />
                             </Route>
-                            <Route path="/list-materi">
+                            <Route path="/list-materi" key={"list-materi"}>
                                 <ListMateri />
                             </Route>
-                            <Route path="/list-kuis">
+                            <Route path="/list-kuis" key={"list-kuis"}>
                                 <ListKuis />
                             </Route>
-                            <Route path="/buat-kuis">
+                            <Route path="/buat-kuis" key={"buat-kuis"}>
                                 <BuatKuis />
                             </Route>
+                            <Route path="/pembelajaran" key={"pembelajaran"}>
+                                <Pembelajaran />
+                            </Route>
                         </Switch>
+                        {/* {JSON.stringify(location)} */}
                     </Content>
                 </Layout>
             </Layout>
         </Layout>
     )
 }
+
+const mapStateToProps = state => {
+    const { User } = state;
+    const { data } = User
+    return {
+        dataUser: data,
+    };
+}
+const mapDispatchToProps = {
+    SetUser,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

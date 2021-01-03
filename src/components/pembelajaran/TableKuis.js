@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react"
-import { Button, Modal, Row, Col, Tooltip, Divider, Table, Space, Popconfirm, message } from "antd"
-import { useHistory } from "react-router-dom"
-import { EyeOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Button, Modal, Row, Col, Tooltip, Table, Space, message } from "antd"
+import { EyeOutlined, CheckOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
-import { GetListQuiz, SetUpdateKuis } from "stores/action"
+import { GetListQuiz, SetPembelajaran } from "stores/action"
 import { PreviewQuiz } from "components/kuis"
-import axios from 'axios';
-
-
 
 const ListKuis = (props) => {
-    const history = useHistory()
-
-    const { data, loading, GetListQuiz, SetUpdateKuis } = props
+    const { data, loading, GetListQuiz, SetPembelajaran, dataPembelajaran } = props
     const [preview, setPreview] = useState(false)
     const [current, setCurrent] = useState("")
 
@@ -21,20 +15,21 @@ const ListKuis = (props) => {
         // eslint-disable-next-line
     }, [])
 
-    const deleteQuiz = async (item) => {
-        try {
-            const { data } = await axios({
-                method: "delete",
-                url: `${window.env.API_URL}/quiz/${item._id}`,
-            })
-            if (data.status) {
-                GetListQuiz()
-                return message.info("berhasil hapus quiz")
+    const pilih = (item) => {
+        const check = dataPembelajaran.find(element => element._id === item._id)
+        if (check) {
+            return message.info("data sudah ada")
+        } else {
+            let payload = {
+                _id: item._id,
+                flag: "quiz",
+                title: item.title
             }
-        } catch (e) {
-            return message.error("Gagal hapus quiz")
+            SetPembelajaran([...dataPembelajaran, payload])
         }
     }
+
+
 
     const ButtonCard = (item) => {
         return (
@@ -47,30 +42,12 @@ const ListKuis = (props) => {
                             setPreview(true)
                         }} />
                 </Tooltip>
-                <Tooltip title="Edit Kuis">
+                <Tooltip title="Pilih">
                     <Button
-                        icon={<EditOutlined />}
+                        icon={<CheckOutlined />}
                         onClick={() => {
-                            console.log(item)
-                            SetUpdateKuis(item)
-                            history.push("/buat-kuis")
+                            pilih(item)
                         }} />
-                </Tooltip>
-                <Tooltip title="Delete Kuis">
-                    <Popconfirm
-                        title="Anda Yakin Mau menghapus kuis ini?"
-                        onConfirm={() => deleteQuiz(item)}
-                        // onCancel={cancel}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                        <Button
-                            danger
-                            icon={<DeleteOutlined />}
-                            onClick={() => {
-                                console.log(item)
-                            }} />
-                    </Popconfirm>
                 </Tooltip>
             </Space>
         )
@@ -103,33 +80,28 @@ const ListKuis = (props) => {
             <Modal width={"800px"} visible={preview} onCancel={() => setPreview(false)}>
                 <PreviewQuiz data={current} />
             </Modal>
-            <Row style={{ marginBottom: "10px" }}>
-                <Divider>
-                    <h2>List Kuis</h2>
-                </Divider>
-            </Row>
             <Row justify="center">
                 <Col>
                     <Table loading={loading} bordered dataSource={data} columns={columns} />
                 </Col>
             </Row>
-            {/* <h2>{JSON.stringify(data)}</h2> */}
         </>
     )
 }
 
 const mapStateToProps = state => {
-    const { ListQuiz } = state;
+    const { ListQuiz, Pembelajaran } = state;
     const { data, loading } = ListQuiz
 
     return {
         data: data,
-        loading
+        loading,
+        dataPembelajaran: Pembelajaran.data
     };
 }
 const mapDispatchToProps = {
     GetListQuiz,
-    SetUpdateKuis
+    SetPembelajaran
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListKuis);
