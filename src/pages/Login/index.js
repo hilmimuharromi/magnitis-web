@@ -34,7 +34,8 @@ const Login = (props) => {
                 url: `${window.env.API_URL}/login`,
                 data: {
                     email,
-                    password
+                    password,
+                    role: "1"
                 }
             })
             if (data.status) {
