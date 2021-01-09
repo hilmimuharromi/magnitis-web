@@ -10,7 +10,7 @@ import FormSoal from "./FormSoal"
 import FormKuis from "./FormKuis"
 import Editor from "./Editor"
 import Pembelajaran from "./Pembelajaran"
-
+import Pages from "./Pages"
 const persistConfig = {
     key: 'root',
     storage,
@@ -28,7 +28,8 @@ const reducers = combineReducers({
     FormSoal,
     Editor,
     ListQuiz,
-    Pembelajaran
+    Pembelajaran,
+    Pages
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

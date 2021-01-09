@@ -1,3 +1,3 @@
 window.env = {
-  "API_URL": "https://magnitis.herokuapp.com"
+  "API_URL": "http://localhost:3001"
 };

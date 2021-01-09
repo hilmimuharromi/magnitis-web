@@ -29,6 +29,7 @@ const BuatMateri = (props) => {
         let payload = {
             title,
             content,
+            flagMateri: true,
             userId: dataUser.userId
         }
         console.log(payload)
@@ -62,6 +63,7 @@ const BuatMateri = (props) => {
             postId: id,
             title,
             content,
+            flagMateri: true,
             userId: dataUser.userId
         }
         console.log(payload)
@@ -114,7 +116,6 @@ const BuatMateri = (props) => {
                         placeholder={"Judul"}
                         style={{ width: "100%" }}
                     />
-
                     <EditorContainer
                         data={content}
                         setData={(data) => SetContent(data)} />

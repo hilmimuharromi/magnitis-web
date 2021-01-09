@@ -20,6 +20,7 @@ import {
 
 import { SetEditor, ResetEditor } from "./Editor"
 import { SetPembelajaran, GetPembelajaran } from "./Pembelajaran"
+import { GetPage, SimpanPage, SetStatusSimpanPage, SetDataPage } from "./Pages"
 export {
     SetTitle,
     SetContent,
@@ -40,5 +41,10 @@ export {
     SetTryAgainKuis,
     SetEditor,
     ResetEditor,
-    SetPembelajaran, GetPembelajaran
+    SetPembelajaran,
+    GetPembelajaran,
+    GetPage,
+    SimpanPage,
+    SetStatusSimpanPage,
+    SetDataPage
 }

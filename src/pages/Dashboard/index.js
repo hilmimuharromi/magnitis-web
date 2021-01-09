@@ -14,6 +14,11 @@ import {
 import { BuatKuis, ListKuis } from "./kuis"
 import { BuatMateri, ListMateri } from "./materi"
 import Pembelajaran from "./pembelajaran.js"
+import Pendahuluan from "./pendahuluan"
+import KiKd from "./ki-kd"
+import Glosarium from "./glosarium"
+import PetaKonsep from "./peta-konsep"
+import DaftarPustaka from "./daftar-pustaka"
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -89,12 +94,44 @@ const Dashboard = (props) => {
                                     List Kuis
                                 </Link>
                             </Menu.Item>
-                        </SubMenu>
-                        <Menu.Item icon={<LaptopOutlined />}>
-                            <Link to="/pembelajaran">
-                                List Pembelajaran
+                            <Menu.Item icon={<LaptopOutlined />}>
+                                <Link to="/penilaian">
+                                    Penilaian
                                 </Link>
-                        </Menu.Item>
+                            </Menu.Item>
+                        </SubMenu>
+                        <SubMenu key="sub3" icon={<LaptopOutlined />} title="Pages">
+                            <Menu.Item icon={<LaptopOutlined />}>
+                                <Link to="/pembelajaran">
+                                    List Pembelajaran
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item icon={<LaptopOutlined />}>
+                                <Link to="/pendahuluan">
+                                    Pendahuluan
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item icon={<LaptopOutlined />}>
+                                <Link to="/ki-kd">
+                                    KI /KD
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item icon={<LaptopOutlined />}>
+                                <Link to="/peta-konsep">
+                                    Peta Konsep
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item icon={<LaptopOutlined />}>
+                                <Link to="/glosarium">
+                                    Glosarium
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item icon={<LaptopOutlined />}>
+                                <Link to="/daftar-pustaka">
+                                    Daftar Pustaka
+                                </Link>
+                            </Menu.Item>
+                        </SubMenu>
                     </Menu>
                 </Sider>
                 <Layout style={{ padding: '24px 24px 24px' }}>
@@ -108,7 +145,6 @@ const Dashboard = (props) => {
                     >
                         <Switch>
                             <Redirect exact from="/" to="/list-materi" />
-
                             <Route path="/buat-materi" key={"buat-materi"}>
                                 <BuatMateri />
                             </Route>
@@ -123,6 +159,21 @@ const Dashboard = (props) => {
                             </Route>
                             <Route path="/pembelajaran" key={"pembelajaran"}>
                                 <Pembelajaran />
+                            </Route>
+                            <Route path="/pendahuluan" key={"pendahuluan"}>
+                                <Pendahuluan />
+                            </Route>
+                            <Route path="/ki-kd" key={"ki-kd"}>
+                                <KiKd />
+                            </Route>
+                            <Route path="/peta-konsep" key={"peta-konsep"}>
+                                <PetaKonsep />
+                            </Route>
+                            <Route path="/glosarium" key={"glosarium"}>
+                                <Glosarium />
+                            </Route>
+                            <Route path="/daftar-pustaka" key={"daftar-pustaka"}>
+                                <DaftarPustaka />
                             </Route>
                         </Switch>
                         {/* {JSON.stringify(location)} */}
