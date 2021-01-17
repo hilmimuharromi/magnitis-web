@@ -19,6 +19,8 @@ import KiKd from "./ki-kd"
 import Glosarium from "./glosarium"
 import PetaKonsep from "./peta-konsep"
 import DaftarPustaka from "./daftar-pustaka"
+import Profile from "./Profile"
+import PetunjukPenggunaan from "./Petunjuk-Penggunaan"
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -131,6 +133,16 @@ const Dashboard = (props) => {
                                     Daftar Pustaka
                                 </Link>
                             </Menu.Item>
+                            <Menu.Item icon={<LaptopOutlined />}>
+                                <Link to="/profile">
+                                    Profile
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item icon={<LaptopOutlined />}>
+                                <Link to="/petunjuk-penggunaan">
+                                    Petunjuk Penggunaan
+                                </Link>
+                            </Menu.Item>
                         </SubMenu>
                     </Menu>
                 </Sider>
@@ -174,6 +186,12 @@ const Dashboard = (props) => {
                             </Route>
                             <Route path="/daftar-pustaka" key={"daftar-pustaka"}>
                                 <DaftarPustaka />
+                            </Route>
+                            <Route path="/profile" key={"profile"}>
+                                <Profile />
+                            </Route>
+                            <Route path="/petunjuk-penggunaan" key={"petunjuk-penggunaan"}>
+                                <PetunjukPenggunaan />
                             </Route>
                         </Switch>
                         {/* {JSON.stringify(location)} */}
