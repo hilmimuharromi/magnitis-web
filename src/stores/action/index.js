@@ -21,6 +21,8 @@ import {
 import { SetEditor, ResetEditor } from "./Editor"
 import { SetPembelajaran, GetPembelajaran } from "./Pembelajaran"
 import { GetPage, SimpanPage, SetStatusSimpanPage, SetDataPage } from "./Pages"
+import { GetListPetunjuk, SetPetunjuk } from "./GetListPetunjuk"
+import { GetPenilaian } from "./GetPenilaian"
 export {
     SetTitle,
     SetContent,
@@ -46,5 +48,8 @@ export {
     GetPage,
     SimpanPage,
     SetStatusSimpanPage,
-    SetDataPage
+    SetDataPage,
+    GetListPetunjuk,
+    SetPetunjuk,
+    GetPenilaian
 }

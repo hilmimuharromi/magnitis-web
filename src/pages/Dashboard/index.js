@@ -21,6 +21,7 @@ import PetaKonsep from "./peta-konsep"
 import DaftarPustaka from "./daftar-pustaka"
 import Profile from "./Profile"
 import PetunjukPenggunaan from "./Petunjuk-Penggunaan"
+import Penilaian from "./Penilaian"
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -192,6 +193,9 @@ const Dashboard = (props) => {
                             </Route>
                             <Route path="/petunjuk-penggunaan" key={"petunjuk-penggunaan"}>
                                 <PetunjukPenggunaan />
+                            </Route>
+                            <Route path="/penilaian" key={"penilaian"}>
+                                <Penilaian />
                             </Route>
                         </Switch>
                         {/* {JSON.stringify(location)} */}

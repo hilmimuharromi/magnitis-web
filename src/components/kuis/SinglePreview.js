@@ -29,7 +29,6 @@ export default function SinglePreview(props) {
                         </Col>
                     ))}
                 </Row>
-
             )
         } else {
             return ""

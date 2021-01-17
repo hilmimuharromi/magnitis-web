@@ -11,6 +11,8 @@ import FormKuis from "./FormKuis"
 import Editor from "./Editor"
 import Pembelajaran from "./Pembelajaran"
 import Pages from "./Pages"
+import ListPetunjuk from "./ListPetunjuk"
+import ListPenilaian from "./ListPenilaian"
 const persistConfig = {
     key: 'root',
     storage,
@@ -29,7 +31,9 @@ const reducers = combineReducers({
     Editor,
     ListQuiz,
     Pembelajaran,
-    Pages
+    Pages,
+    ListPetunjuk,
+    ListPenilaian
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
