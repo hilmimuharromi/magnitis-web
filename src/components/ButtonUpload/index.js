@@ -41,10 +41,7 @@ export default function DataLampiran(props) {
         try {
             setLoading(true)
             const { data } = await axios.post({
-                url: "https://api.imgur.com/3/image",
-                header: {
-                    Authorization: "Client-ID 1ec9ba58f65058a"
-                },
+                url: "https://api.imgbb.com/1/upload?key=68f0a2cb8234add30ae895949f18c671",
                 data: formData
             })
             if (data.status === "success") {

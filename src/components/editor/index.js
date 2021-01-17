@@ -5,6 +5,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { connect } from 'react-redux';
 import { ResetEditor } from "stores/action"
 import { FromHtml, ToHtml } from "utils/draftConvert"
+// import axios from "axios"
 function EditorContainer(props) {
     const { data, setData, heightEditor, } = props
     const [editorState, setEditorState] = useState(EditorState.createEmpty())
@@ -34,12 +35,12 @@ function EditorContainer(props) {
     // }, [isReset])
 
     function uploadImageCallBack(file) {
-        console.log("file", file)
         return new Promise(
             (resolve, reject) => {
                 const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'https://api.imgur.com/3/image');
-                xhr.setRequestHeader('Authorization', 'Client-ID 1ec9ba58f65058a');
+                // xhr.open('POST', 'https://api.imgur.com/3/image');
+                xhr.open('POST', 'https://api.imgbb.com/1/upload?key=68f0a2cb8234add30ae895949f18c671');
+                // xhr.setRequestHeader('Authorization', 'Client-ID 1ec9ba58f65058a');
                 const data = new FormData();
                 data.append('image', file);
                 xhr.send(data);
@@ -56,6 +57,23 @@ function EditorContainer(props) {
             }
         );
     }
+
+    // async function uploadImage(file) {
+    //     const dataFile = new FormData();
+    //             dataFile.append('image', file);
+
+    //     const {data} = await axios({
+    //         url: "https://api.imgbb.com/1/upload?key=68f0a2cb8234add30ae895949f18c671",
+    //         method: "post",
+    //         data: dataFile
+    //     })
+
+    //     if(data){
+    //         console.log(data)
+    //         return data.data
+    //     }
+
+    // }
 
     function handleEmbed(str) {
         console.log("embed", str)
@@ -93,7 +111,11 @@ function EditorContainer(props) {
                                 width: '80%',
                             }
                         },
-                        image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true }, previewImage: true },
+                        image: { 
+                            uploadCallback: uploadImageCallBack, 
+                            alt: { present: true, mandatory: false }, 
+                            previewImage: true,
+                         },
                     }}
                 // toolbarCustomButtons={[<Iframe />]}
                 />
