@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react"
-import { Space, Typography, Divider, Tag, Row, Col, Card, Input, Select, Button } from "antd"
+import { Typography, Divider, Row, Col, Card, Input, Select, Button } from "antd"
 import SinglePreview from "./SinglePreview"
-
+import axios from "axios"
 const { Option } = Select
 const { Title } = Typography
-const KoreksiPenilaian = ({ data }) => {
+const KoreksiPenilaian = ({ data, setSuccess }) => {
     const [dataNilai, setDataNilai] = useState(data.answer)
     const [score, setScore] = useState(data.score)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const handleScore = () => {
@@ -18,6 +19,7 @@ const KoreksiPenilaian = ({ data }) => {
                 if (item.isEssay === true && item.isTrue) {
                     temp += Number(item.point)
                 }
+                return item
             })
             setScore(temp)
         }
@@ -35,6 +37,9 @@ const KoreksiPenilaian = ({ data }) => {
                         <div>
                             <Title level={4}>Jawaban Siswa : </Title>
                         </div>
+                        <div>
+                            <Typography>point : {found.point} </Typography>
+                        </div>
                     </Col>
                     <Col>
                         {found && found.isEssay === false ?
@@ -50,7 +55,7 @@ const KoreksiPenilaian = ({ data }) => {
                     <Row justify="center" gutter={8}>
                         <Col>
                             <Input
-                                defaultValue={item.point}
+                                defaultValue={found.point}
                                 onChange={(e) => {
                                     const newData = dataNilai.map((item) => {
                                         if (item.key === found.key) {
@@ -89,6 +94,31 @@ const KoreksiPenilaian = ({ data }) => {
                 }
             </>
         )
+    }
+
+
+    const simpanKoreksi = async () => {
+        setLoading(true)
+        const payload = {
+            answer: dataNilai,
+            score: score
+        }
+        console.log(payload)
+        try {
+            const result = await axios({
+                method: "put",
+                url: `${window.env.API_URL}/resultquiz/${data._id}`,
+                data: payload
+            })
+            if (result) {
+                setSuccess()
+            }
+        } catch (e) {
+            console.log(e, "error simpan")
+        } finally {
+            setLoading(false)
+
+        }
 
     }
 
@@ -103,8 +133,6 @@ const KoreksiPenilaian = ({ data }) => {
                             <Divider />
                             {handlePenilaian(item)}
                         </Card>
-
-
                     </Row>
                     <Divider />
                 </>
@@ -116,12 +144,12 @@ const KoreksiPenilaian = ({ data }) => {
                             <Title level={4}>Score = {score}</Title>
                         </Row>
                         <Row justify="center" style={{ margin: "10px" }}>
-                            <Button type="primary">Simpan Koreksi</Button>
+                            <Button type="primary" loading={loading} onClick={simpanKoreksi}>Simpan Koreksi</Button>
                         </Row>
                     </Card>
                 </Col>
             </Row>
-            {JSON.stringify(dataNilai)}
+            {/* {JSON.stringify(data)} */}
         </>
     )
 }

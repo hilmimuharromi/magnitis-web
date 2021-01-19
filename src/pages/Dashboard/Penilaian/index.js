@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { connect } from 'react-redux';
 import { GetPenilaian } from "stores/action"
-import { Table, Row, Button, Input, Modal, Card, Col } from "antd"
+import { Table, Row, Button, Input, Modal, message } from "antd"
 import moment from "moment"
 import { KoreksiPenilaian } from "components/kuis"
 const { Search } = Input;
@@ -75,7 +75,11 @@ const Penilaian = ({ data, loading, GetPenilaian }) => {
                 />
             </Row>
             <Modal width={"50%"} title="Koreksi Nilai" visible={visibleKoreksi} onCancel={() => setVisibleKoreksi(false)} footer={null} >
-                <KoreksiPenilaian data={dataKoreksi} />
+                <KoreksiPenilaian data={dataKoreksi} setSuccess={() => {
+                    setVisibleKoreksi(false)
+                    GetPenilaian()
+                    message.success("sukses koreksi nilai")
+                }} />
             </Modal>
         </>
     )
