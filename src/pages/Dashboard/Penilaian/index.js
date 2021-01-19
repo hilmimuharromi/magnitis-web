@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { connect } from 'react-redux';
 import { GetPenilaian } from "stores/action"
-import { Table, Row, Button, Input, Modal, message } from "antd"
+import { Table, Row, Button, Input, Modal, message, Space, Tooltip, Popconfirm, } from "antd"
+import { DeleteOutlined, } from '@ant-design/icons';
+import axios from "axios"
 import moment from "moment"
 import { KoreksiPenilaian } from "components/kuis"
 const { Search } = Input;
@@ -9,14 +11,34 @@ const Penilaian = ({ data, loading, GetPenilaian }) => {
     const [filterData, setFilterData] = useState([])
     const [visibleKoreksi, setVisibleKoreksi] = useState(false)
     const [dataKoreksi, setDataKoreksi] = useState("")
+    const [loadingDelete, setLoadingDelete] = useState(false)
 
     useEffect(() => {
         GetPenilaian()
         //eslint-disable-next-line
     }, [])
 
-    const columns = [
+    const deleteNilai = async (record) => {
+        setLoadingDelete(true)
+        try {
+            const result = await axios({
+                method: "delete",
+                url: `${window.env.API_URL}/resultquiz/${record._id}`,
+            })
+            if (result) {
+                message.info("success delete nilai")
+                GetPenilaian()
+            }
+        } catch (e) {
+            console.log(e, "error delete nilai")
+        } finally {
+            setLoadingDelete(false)
 
+        }
+
+    }
+
+    const columns = [
         {
             title: 'Nama Siswa',
             dataIndex: 'user',
@@ -45,10 +67,28 @@ const Penilaian = ({ data, loading, GetPenilaian }) => {
         {
             title: 'Aksi',
             dataIndex: 'operation',
-            render: (text, record) => <Button onClick={() => {
-                setVisibleKoreksi(true)
-                setDataKoreksi(record)
-            }}>Koreksi</Button>
+            render: (text, record) => <Space>
+
+                <Button onClick={() => {
+                    setVisibleKoreksi(true)
+                    setDataKoreksi(record)
+                }}>Koreksi</Button>
+                <Tooltip title="Delete Nilai" >
+                    <Popconfirm
+                        title="Anda Yakin Mau menghapus Nilai ini?"
+                        onConfirm={() => deleteNilai(record)}
+                        // onCancel={cancel}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button
+                            loading={loadingDelete}
+                            danger
+                            icon={<DeleteOutlined />}
+                        />
+                    </Popconfirm>
+                </Tooltip>
+            </Space>
         },
     ]
 
@@ -69,6 +109,7 @@ const Penilaian = ({ data, loading, GetPenilaian }) => {
             </Row>
             <Row justify="center">
                 <Table
+                    loading={loading}
                     bordered
                     dataSource={filterData.length > 0 ? filterData : data}
                     columns={columns}

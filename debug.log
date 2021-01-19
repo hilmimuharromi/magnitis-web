@@ -5,3 +5,6 @@
 [1231/071056.106:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\barokah\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\a9b89861-e8d3-4af6-8c65-ff9ed51846e3: The system cannot find the path specified. (0x3)
 [1231/071056.143:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\barokah\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\5daff232-7b77-4cef-b4af-d782d960e321: The system cannot find the path specified. (0x3)
 [0103/081805.511:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[0119/080206.470:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[0119/080206.569:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\barokah\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\6b25d4f7-6e04-47c5-b2fa-7da96c38432d: The system cannot find the path specified. (0x3)
+[0119/080206.594:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\barokah\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\49c88c8e-d74f-4279-b0ba-210533d291e2: The system cannot find the path specified. (0x3)
