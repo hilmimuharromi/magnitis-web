@@ -70,8 +70,10 @@ const Penilaian = ({ data, loading, GetPenilaian }) => {
             render: (text, record) => <Space>
 
                 <Button onClick={() => {
-                    setVisibleKoreksi(true)
                     setDataKoreksi(record)
+                       GetPenilaian()
+                       console.log(record)
+                       setVisibleKoreksi(true)
                 }}>Koreksi</Button>
                 <Tooltip title="Delete Nilai" >
                     <Popconfirm
@@ -115,8 +117,10 @@ const Penilaian = ({ data, loading, GetPenilaian }) => {
                     columns={columns}
                 />
             </Row>
-            <Modal width={"50%"} title="Koreksi Nilai" visible={visibleKoreksi} onCancel={() => setVisibleKoreksi(false)} footer={null} >
-                <KoreksiPenilaian data={dataKoreksi} setSuccess={() => {
+            <Modal width={"80%"} title="Koreksi Nilai" visible={visibleKoreksi} onCancel={() => setVisibleKoreksi(false)} footer={null} >
+                <KoreksiPenilaian 
+                    data={dataKoreksi} 
+                    setSuccess={() => {
                     setVisibleKoreksi(false)
                     GetPenilaian()
                     message.success("sukses koreksi nilai")
